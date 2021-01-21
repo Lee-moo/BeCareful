@@ -35,6 +35,7 @@ app.use(session({
 }));
 
 app.use((req,res,next)=>{ 
+
     const error = new Error();
     next(error);
 });
