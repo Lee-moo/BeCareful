@@ -20,11 +20,23 @@ module.exports = class tEstateBrokerage extends Sequelize.Model {
            telNo : {
                type : Sequelize.STRING(40),
                allowNull : true,
+               defaultValye : '',
            },
            status : {
                type : Sequelize.BOOLEAN,
                allowNull : true,
-           }
+               defaultValue : '',
+           },
+           latitude : {
+               type : Sequelize.STRING(11),
+               allowNull : true,
+               defaultValue : '',
+           },
+           longitude : {
+               type : Sequelize.STRING(11),
+               allowNull : true,
+               defaultValue : '',
+           },
         }, {
             sequelize, 
             timestamps : true,

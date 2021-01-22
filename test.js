@@ -11,9 +11,3 @@
 //     console.error(err);
 // });
 
-
-const sanitizeHtml = require('sanitize-html');
-
-let data = "<script></script>";
-sanitizeHtml(data);
-console.log(data);
