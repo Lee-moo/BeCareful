@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://kit.fontawesome.com/d87b15e7f5.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/aLogin.css">
+    <title></title>
+    <script type="text/javascript">
+        window.onload = ()=>{
+
+        }
+
+        async function login() {
+            const aID = document.querySelector('#textUserID');
+            const aPwd = document.querySelector('#txtPassword');
+
+            if(aID.value === '') {
+                alert('아이디를 입력해주세요.');
+                aID.focus();
+                return false;
+            }
+            if(aPwd.value === '') {
+                alert('비밀번호를 입력해주세요.');
+                aPwd.focus();
+                return false;
+            }
+
+            const response = await axios({
+                method : 'post',
+                url : '/fnci/login',
+                data :{
+                    aID : aID.value,
+                    aPwd : aPwd.value,
+                }
+            });
+
+            // location.replace(response.data);
+            console.dir(response);
+        }
+    </script>
+</head>
+
+<body>
+    <header class="login">
+        <h1 class="logo">
+            <span class="logoFont"><i class="far fa-handshake"></i></span>
+            <span class="loginText">Logo & Text</span>
+        </h1>
+    </header>
+    <section>
+        <div class="loginBox">
+            <h3>LOG-IN</h3>
+            <hr>
+            <div id="txtLogin">아이디와 비밀번호를 입력하여 로그인해 주시기 바랍니다.</div>
+            <div class="form">
+                <div class="wrapInput">
+                    <input type="text" id="textUserID" title="아이디 입력" placeholder="아이디" />
+                    <br />
+                    <input type="password" id="txtPassword" title="비밀번호 입력" placeholder="비밀번호" />
+                </div>
+                <button type="버튼" id="loginButton" onclick="login()">LOGIN</button>
+            </div>
+            <div class="chk">
+                <input type="checkbox" id="chkSaveID"/>
+                <label for="chkSaveID">아이디 저장</label>
+            </div>
+
+        </div>
+    </section>
+</body>
+
+</html>
+
+<!-- 
+아이디 저장 체크박스 선택 후 로그인 버튼 누를 시 해당 사용자 아이디를 
+쿠키 저장 후 아이디 자동 채움
+
+window.onload에서는 해당 쿠키가 존재할 시 자동으로 아이디 저장 체크버튼 활성화
+및 쿠키에 저장된 사용자 아이디 채워넣기
+
+axios를 활용한 서버 전달 
+
+ -->

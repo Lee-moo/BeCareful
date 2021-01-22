@@ -2,12 +2,13 @@ const express = require('express');
 const session = require('express-session');
 const cookirParser = require('cookie-parser');
 const morgan = require('morgan');
+const path = require('path');
 const dotenv = require('dotenv');
 const nunjucks = require('nunjucks');
 const sanitizeHtml = require('sanitize-html');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
-
+const admin = require('./routes/admin');
 dotenv.config();
 
 
@@ -22,6 +23,7 @@ nunjucks.configure('views', {
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));
+app.use(express.static(path.join(__dirname, 'resource','CSS')));
 app.use(cookieParser(process.env.COOKIESECRET));
 
 app.use(session({
@@ -34,8 +36,10 @@ app.use(session({
     },
 }));
 
-app.use((req,res,next)=>{ 
+app.use('/fnci',admin);
 
+
+app.use((req,res,next)=>{ 
     const error = new Error();
     next(error);
 });
@@ -45,4 +49,8 @@ app.use((err,req,res,next)=>{
     res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
     res.status(err.status || 500);
     res.render('error');
+});
+
+app.listen(app.get('port'), ()=>{
+    console.log('server on');
 });
