@@ -8,17 +8,35 @@ const nunjucks = require('nunjucks');
 const sanitizeHtml = require('sanitize-html');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
-const admin = require('./routes/admin');
+const {sequelize} = require('./models');
+
+
 dotenv.config();
+
+const admin = require('./routes/admin');
+const passportConfig = require('./passport');
+const passport = require('passport');
+
 
 
 const app = express();
+passportConfig();
 app.set('port', process.env_PORT || 3000);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
     express : app,
     watch : true,
 });
+
+sequelize
+    .sync({force :false})
+    .then(()=>{
+        console.log('db connect');
+    })
+    .catch((err)=>{
+        console.error(err);
+    });
+
 
 app.use(morgan('dev'));
 app.use(express.json());
@@ -35,6 +53,10 @@ app.use(session({
         secure : false,
     },
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use('/fnci',admin);
 
